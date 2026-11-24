@@ -11,8 +11,16 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                echo 'Running application tests...'
+                echo 'Running tests...'
                 sh 'npm test'
+            }
+        }
+
+        stage('Deploy with Docker') {
+            steps {
+                echo 'Deploying application using Docker...'
+                sh 'docker build -t webapp:latest .'
+                sh 'docker run -d -p 3000:3000 --name webapp-deployment webapp:latest'
             }
         }
     }
